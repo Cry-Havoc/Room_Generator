@@ -1,6 +1,6 @@
 extends RichTextLabel
  
-@onready var roomGenerator = $"../RoomGenerator"
+@onready var roomGenerator = $"../../RoomGenerator"
 @onready var myText = $"." 
 
 # Called when the node enters the scene tree for the first time.

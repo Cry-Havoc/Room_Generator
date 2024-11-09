@@ -1,6 +1,6 @@
 extends RichTextLabel
 
-@onready var roomGenerator = $"../RoomGenerator"
+@onready var roomGenerator = $"../../RoomGenerator"
 @onready var myText = $"." 
 
 

@@ -8,8 +8,14 @@ var rng = RandomNumberGenerator.new()
 var grid_initialized = false
 var debugLog : String = ""
 var walkerPosition = Vector2i.ZERO 
+var startRoom = null
+var currentRoom = null
+
 
 @onready var roomCollection = $"../RoomCollection"
+@onready var generatorUI = $"../GenerationUI"
+@onready var textAdventure = $"../TextAdventure" 
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,7 +27,7 @@ func _process(delta):
 	
 func CalculateRooms():
 		CreateGrid()
-		DrunkWalk(1)
+		DrunkWalk(0.1)
 		
 func DrunkWalk(displayDelay : float): 
 	var max_iterations = 30
@@ -30,17 +36,29 @@ func DrunkWalk(displayDelay : float):
 	
 	walkerPosition.x = randi()%(grid_width-1)
 	walkerPosition.y = randi()%(grid_height-1) 
+	 
 	
-	debugLog += "Drunk Walk starts at Position - " + str(walkerPosition.x) + ", " + str(walkerPosition.y) + "\n";
+	debugLog += "Drunk Walk starts at position - " + str(walkerPosition.x) + ", " + str(walkerPosition.y);
 	
+	var gridRoom = gridArray[walkerPosition.y][walkerPosition.x]
+	gridRoom.setupRoom(lastRoom,walkerPosition,roomCollection.GetStartRoomName())
+										 
+	debugLog += " - generated [color=green]" + gridRoom.roomName + "[/color]\n"
+	
+	lastRoom = gridRoom  
+	startRoom = gridRoom
+	currentRoom = gridRoom
+	  
+	await get_tree().create_timer(displayDelay).timeout
+			
 	while itr < max_iterations:
 			
 			# Perform random walk
 			# 1- choose random direction
 			# 2- check that direction is in bounds
 			# 3- move in that direction
-			var random_direction = GetRandomDirection()
-			
+			var random_direction = GetRandomDirection() 
+			 
 			if (walkerPosition.x + random_direction.x >= 0 and 
 				walkerPosition.x + random_direction.x < grid_width and
 				walkerPosition.y + random_direction.y >= 0 and
@@ -51,7 +69,7 @@ func DrunkWalk(displayDelay : float):
 					debugLog += "Drunk Walk into direction - [color=green]" + GetDirectionName(random_direction) + "[/color]" ;
 					 
 					walkerPosition += random_direction 
-					var gridRoom = gridArray[walkerPosition.y][walkerPosition.x]
+					gridRoom = gridArray[walkerPosition.y][walkerPosition.x]
 					
 					if(gridRoom.roomEmpty): 
 						gridRoom.setupRoom(lastRoom,walkerPosition,roomCollection.GetRandomRoomName())
@@ -96,8 +114,7 @@ func CreateGrid():
 			var newRoom = RoomNode.new()
 			gridArray[x][y] = newRoom  
 			
-	grid_initialized = true
-			
+	grid_initialized = true 
 			
 func GetDebugData():
 	var debugText : String = "";  
@@ -140,3 +157,20 @@ func GetDebugData():
 			rowIndex += 1
 			
 	return debugText
+	
+func Restart():  
+	roomCollection.ResetRoomNames()
+	grid_initialized = false
+	debugLog = ""
+	CreateGrid()
+	DrunkWalk(1)
+	
+func StartTextAdventure():
+	generatorUI.visible = false
+	textAdventure.visible = true
+	textAdventure.StartTextAdventure()
+	
+func BackToGenerator():
+	generatorUI.visible = true 
+	textAdventure.visible = false 
+	textAdventure.LeaveTextAdventure()

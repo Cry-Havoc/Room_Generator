@@ -1,13 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://buq66lsdfn8uw"]
+[gd_scene load_steps=9 format=3 uid="uid://buq66lsdfn8uw"]
 
 [ext_resource type="Script" path="res://Scripts/room_generator_ouput.gd" id="1_1qtdd"]
 [ext_resource type="Script" path="res://Tools/room_generator.gd" id="1_p2fvv"]
 [ext_resource type="Script" path="res://Scripts/data_visiualisation_output.gd" id="1_ykbm5"]
 [ext_resource type="Script" path="res://Scripts/room_collection.gd" id="4_isdej"]
+[ext_resource type="Script" path="res://Scripts/restart_button.gd" id="5_2ex0h"]
+[ext_resource type="Script" path="res://Scripts/text_adventure_output.gd" id="6_o15fj"]
+[ext_resource type="Script" path="res://Scripts/text_adventure_button.gd" id="6_uxmnv"]
+[ext_resource type="Script" path="res://Scripts/return_to_generator_button.gd" id="8_bf6xx"]
 
 [node name="Main" type="Node2D"]
 
-[node name="RoomGeneratorOuput" type="RichTextLabel" parent="."]
+[node name="RoomGenerator" type="Node" parent="."]
+script = ExtResource("1_p2fvv")
+
+[node name="RoomCollection" type="Node" parent="."]
+script = ExtResource("4_isdej")
+roomNames = Array[String](["Torture Chamber", "Crystal Cave", "Orc Barracks", "Treasure Room", "Mirror Hall", "Goblin Kitchen", "Griphon Nest", "Tomb", "Underground Lake", "Alchemist Laboratory", "Dog Kernel", "Gold Mine", "Weapon Forge", "Food Storeroom", "Prison Cell", "Trap Room", "Ice Cavern", "Acid Pool", "Armory", "Libary", "Ritual Chamber", "Morgue", "Stalactite Cave", "Dragon Lair", "Wizards Chambers", "Workshop", "Lava Pool", "Statue Hall", "Portal Room", "Collapsed Cavern"])
+startRoomName = "Dungeon Entrance"
+
+[node name="GenerationUI" type="Node2D" parent="."]
+
+[node name="RoomGeneratorOuput" type="RichTextLabel" parent="GenerationUI"]
 offset_left = 269.0
 offset_top = 182.0
 offset_right = 918.0
@@ -16,7 +30,7 @@ bbcode_enabled = true
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 script = ExtResource("1_1qtdd")
 
-[node name="DataVisiualisationOutput" type="RichTextLabel" parent="."]
+[node name="DataVisiualisationOutput" type="RichTextLabel" parent="GenerationUI"]
 offset_left = 976.0
 offset_top = 148.0
 offset_right = 1845.0
@@ -35,9 +49,61 @@ XXXXXXXXXX
 XXXXXXXXXX[/center]"
 script = ExtResource("1_ykbm5")
 
-[node name="RoomGenerator" type="Node" parent="."]
-script = ExtResource("1_p2fvv")
+[node name="RestartButton" type="Button" parent="GenerationUI"]
+offset_left = 192.0
+offset_top = 940.0
+offset_right = 352.0
+offset_bottom = 971.0
+text = "Restart Drunk Walk"
+script = ExtResource("5_2ex0h")
 
-[node name="RoomCollection" type="Node" parent="."]
-script = ExtResource("4_isdej")
-roomNames = Array[String](["Torture Chamber", "Crystal Cave", "Orc Barracks", "Treasure Room", "Mirror Hall", "Goblin Kitchen", "Griphon Nest", "Tomb", "Underground Lake", "Alchemist Laboratory", "Dog Kernel", "Gold Mine", "Weapon Forge", "Food Storeroom", "Prison Cell", "Trap Room", "Ice Cavern", "Acid Pool", "Armory", "Libary", "Ritual Chamber", "Morgue", "Stalactite Cave", "Dragon Lair", "Wizards Chambers", "Workshop", "Lava Pool", "Statue Hall", "Portal Room", "Collapsed Cavern"])
+[node name="Text Adventure" type="Button" parent="GenerationUI"]
+offset_left = 416.0
+offset_top = 940.0
+offset_right = 575.0
+offset_bottom = 971.0
+text = "Text Adventure"
+script = ExtResource("6_uxmnv")
+
+[node name="2D Map" type="Button" parent="GenerationUI"]
+offset_left = 672.0
+offset_top = 940.0
+offset_right = 831.0
+offset_bottom = 971.0
+text = "2D Map"
+script = ExtResource("5_2ex0h")
+
+[node name="3D Dungeon Rooms" type="Button" parent="GenerationUI"]
+offset_left = 915.0
+offset_top = 940.0
+offset_right = 1074.0
+offset_bottom = 971.0
+text = "3D Dungeon Room"
+script = ExtResource("5_2ex0h")
+
+[node name="TextAdventure" type="Node2D" parent="."]
+visible = false
+script = ExtResource("6_o15fj")
+
+[node name="TextAdventureOutput" type="RichTextLabel" parent="TextAdventure"]
+offset_left = 505.0
+offset_top = 152.0
+offset_right = 1514.0
+offset_bottom = 873.0
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+
+[node name="ReturnToGeneratorButton" type="Button" parent="TextAdventure"]
+offset_left = 192.0
+offset_top = 940.0
+offset_right = 352.0
+offset_bottom = 971.0
+text = "Return To Room Generator"
+script = ExtResource("8_bf6xx")
+
+[connection signal="pressed" from="GenerationUI/RestartButton" to="GenerationUI/RestartButton" method="_on_pressed"]
+[connection signal="pressed" from="GenerationUI/Text Adventure" to="GenerationUI/Text Adventure" method="_on_pressed"]
+[connection signal="pressed" from="GenerationUI/2D Map" to="GenerationUI/2D Map" method="_on_pressed"]
+[connection signal="pressed" from="GenerationUI/3D Dungeon Rooms" to="GenerationUI/3D Dungeon Rooms" method="_on_pressed"]
+[connection signal="pressed" from="TextAdventure/ReturnToGeneratorButton" to="TextAdventure/ReturnToGeneratorButton" method="_on_pressed"]

@@ -1,0 +1,7 @@
+Version 0.0.2
+
+Added - Text Adventure Mode
+
+Version 0.0.1
+
+Added - Drunk Walk Algorithm Visualisation

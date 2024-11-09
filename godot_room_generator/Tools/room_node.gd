@@ -1,7 +1,7 @@
 class_name RoomNode
 extends Node
 
-var connectedRooms = [RoomNode]
+var connectedRooms = []
 var roomCoordinates : Vector2i
 var roomEmpty : bool = true
 var roomName : String = "Empty Spot"
@@ -28,3 +28,39 @@ func connectRoom(_roomToConnect : RoomNode):
 	if(_roomToConnect != null && not (_roomToConnect in connectedRooms) ):
 		connectedRooms.append(_roomToConnect)
 		_roomToConnect.connectedRooms.append(self) 
+		
+func CanGoNorth():
+		return CanGoDirection(Vector2i.UP)
+
+func CanGoSouth():
+		return CanGoDirection(Vector2i.DOWN)
+		
+func CanGoWest():
+		return CanGoDirection(Vector2i.LEFT)
+		
+func CanGoEast():
+		return CanGoDirection(Vector2i.RIGHT)	
+
+func CanGoDirection(_directionToGo : Vector2i):
+	for connectedRoom : RoomNode in connectedRooms: 
+		if(connectedRoom.roomCoordinates - roomCoordinates == _directionToGo):
+			return true
+	return false
+	
+func GetRoomNorth():
+		return GetDirectionRoom(Vector2i.UP) 
+
+func GetRoomSouth():
+		return GetDirectionRoom(Vector2i.DOWN) 
+		
+func GetRoomWest():
+		return GetDirectionRoom(Vector2i.LEFT) 
+		
+func GetRoomEast():
+		return GetDirectionRoom(Vector2i.RIGHT) 
+	
+func GetDirectionRoom(_directionToGo : Vector2i):
+	for connectedRoom : RoomNode in connectedRooms: 
+		if(connectedRoom.roomCoordinates - roomCoordinates == _directionToGo):
+			return connectedRoom
+	return null
