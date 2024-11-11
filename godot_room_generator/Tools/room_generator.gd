@@ -18,6 +18,7 @@ var currentRoom = null
 @onready var dungeonMap2D =  $"../2D_DungeonMap"
 @onready var dungeon3D =   $"../3D_Dungeon"
 @onready var dungeonPlayer =  $"../3D_Dungeon/Player"
+@onready var dungeonButton = $"../ReturnToGeneratorButton"
   
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -180,6 +181,7 @@ func Start2DMap():
 func Start3DDungeon():
 	generatorUI.visible = false
 	dungeon3D.visible = true
+	dungeonButton.visible = true 
 	dungeonPlayer.StartDungeon3D()	
 	 
 	
@@ -190,4 +192,5 @@ func BackToGenerator():
 	dungeonMap2D.visible = false
 	dungeonMap2D.LeaveDungeonMap()
 	dungeon3D.visible = false
+	dungeonButton.visible = false
 	dungeonPlayer.LeaveDungeon3D()
