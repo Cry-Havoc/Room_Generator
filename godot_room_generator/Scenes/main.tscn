@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://buq66lsdfn8uw"]
+[gd_scene load_steps=17 format=3 uid="uid://buq66lsdfn8uw"]
 
 [ext_resource type="Script" path="res://Scripts/room_generator_ouput.gd" id="1_1qtdd"]
 [ext_resource type="Script" path="res://Tools/room_generator.gd" id="1_p2fvv"]
@@ -7,7 +7,21 @@
 [ext_resource type="Script" path="res://Scripts/restart_button.gd" id="5_2ex0h"]
 [ext_resource type="Script" path="res://Scripts/text_adventure_output.gd" id="6_o15fj"]
 [ext_resource type="Script" path="res://Scripts/text_adventure_button.gd" id="6_uxmnv"]
+[ext_resource type="Script" path="res://Scripts/2d_map_button.gd" id="7_hpbw5"]
 [ext_resource type="Script" path="res://Scripts/return_to_generator_button.gd" id="8_bf6xx"]
+[ext_resource type="Script" path="res://Scripts/3d_dungeon_button.gd" id="8_vf7ty"]
+[ext_resource type="Script" path="res://Scripts/2d_dungeon_map.gd" id="9_rjler"]
+[ext_resource type="Script" path="res://Scripts/player_3D.gd" id="11_c6ktb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyrjl"]
+albedo_color = Color(0.678431, 1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bv4lb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkwge"]
+albedo_color = Color(1, 0.364706, 1, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j3i73"]
 
 [node name="Main" type="Node2D"]
 
@@ -71,7 +85,7 @@ offset_top = 940.0
 offset_right = 831.0
 offset_bottom = 971.0
 text = "2D Map"
-script = ExtResource("5_2ex0h")
+script = ExtResource("7_hpbw5")
 
 [node name="3D Dungeon Rooms" type="Button" parent="GenerationUI"]
 offset_left = 915.0
@@ -79,7 +93,7 @@ offset_top = 940.0
 offset_right = 1074.0
 offset_bottom = 971.0
 text = "3D Dungeon Room"
-script = ExtResource("5_2ex0h")
+script = ExtResource("8_vf7ty")
 
 [node name="TextAdventure" type="Node2D" parent="."]
 visible = false
@@ -102,8 +116,115 @@ offset_bottom = 971.0
 text = "Return To Room Generator"
 script = ExtResource("8_bf6xx")
 
+[node name="2D_DungeonMap" type="Node2D" parent="."]
+visible = false
+script = ExtResource("9_rjler")
+
+[node name="ReturnToGeneratorButton" type="Button" parent="2D_DungeonMap"]
+offset_left = 192.0
+offset_top = 940.0
+offset_right = 352.0
+offset_bottom = 971.0
+text = "Return To Room Generator"
+script = ExtResource("8_bf6xx")
+
+[node name="3D_Dungeon" type="Node3D" parent="."]
+visible = false
+
+[node name="DungeonRoom" type="CSGBox3D" parent="3D_Dungeon"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+visibility_range_end = 4096.0
+size = Vector3(10, 1, 10)
+material = SubResource("StandardMaterial3D_qyrjl")
+
+[node name="East" type="CSGBox3D" parent="3D_Dungeon/DungeonRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, 0)
+visibility_range_end = 4096.0
+size = Vector3(2, 0.025, 2)
+material = SubResource("StandardMaterial3D_qyrjl")
+
+[node name="Area3D" type="Area3D" parent="3D_Dungeon/DungeonRoom/East"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3D_Dungeon/DungeonRoom/East/Area3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_bv4lb")
+
+[node name="South" type="CSGBox3D" parent="3D_Dungeon/DungeonRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 6)
+visibility_range_end = 4096.0
+size = Vector3(2, 0.025, 2)
+material = SubResource("StandardMaterial3D_qyrjl")
+
+[node name="Area3D" type="Area3D" parent="3D_Dungeon/DungeonRoom/South"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3D_Dungeon/DungeonRoom/South/Area3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_bv4lb")
+
+[node name="North" type="CSGBox3D" parent="3D_Dungeon/DungeonRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6)
+visibility_range_end = 4096.0
+size = Vector3(2, 0.025, 2)
+material = SubResource("StandardMaterial3D_qyrjl")
+
+[node name="Area3D" type="Area3D" parent="3D_Dungeon/DungeonRoom/North"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3D_Dungeon/DungeonRoom/North/Area3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_bv4lb")
+
+[node name="West" type="CSGBox3D" parent="3D_Dungeon/DungeonRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 0)
+visibility_range_end = 4096.0
+size = Vector3(2, 0.025, 2)
+material = SubResource("StandardMaterial3D_qyrjl")
+
+[node name="Area3D" type="Area3D" parent="3D_Dungeon/DungeonRoom/West"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3D_Dungeon/DungeonRoom/West/Area3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_bv4lb")
+
+[node name="Label3D" type="Label3D" parent="3D_Dungeon/DungeonRoom"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 5.62, -2.36)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0.691357, 0.691357, 0.691357, 1)
+text = "Dungeon Entrance"
+
+[node name="Camera3D" type="Camera3D" parent="3D_Dungeon"]
+transform = Transform3D(1, 0, 0, 0, 0.469472, 0.882948, 0, -0.882948, 0.469472, 0, 14.965, 8.09)
+
+[node name="Player" type="RigidBody3D" parent="3D_Dungeon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.84538, 1.5, 0)
+script = ExtResource("11_c6ktb")
+
+[node name="PlayerShape" type="CSGCylinder3D" parent="3D_Dungeon/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0670056, 0)
+height = 1.0
+material = SubResource("StandardMaterial3D_tkwge")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3D_Dungeon/Player"]
+shape = SubResource("CylinderShape3D_j3i73")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="3D_Dungeon"]
+transform = Transform3D(0.963257, 0.244673, -0.110773, 0.1926, -0.341809, 0.919822, 0.187193, -0.907359, -0.376374, 0, 17.3978, 0)
+
+[node name="ReturnToGeneratorButton" type="Button" parent="3D_Dungeon"]
+offset_left = 192.0
+offset_top = 940.0
+offset_right = 352.0
+offset_bottom = 971.0
+text = "Return To Room Generator"
+script = ExtResource("8_bf6xx")
+
 [connection signal="pressed" from="GenerationUI/RestartButton" to="GenerationUI/RestartButton" method="_on_pressed"]
 [connection signal="pressed" from="GenerationUI/Text Adventure" to="GenerationUI/Text Adventure" method="_on_pressed"]
 [connection signal="pressed" from="GenerationUI/2D Map" to="GenerationUI/2D Map" method="_on_pressed"]
 [connection signal="pressed" from="GenerationUI/3D Dungeon Rooms" to="GenerationUI/3D Dungeon Rooms" method="_on_pressed"]
 [connection signal="pressed" from="TextAdventure/ReturnToGeneratorButton" to="TextAdventure/ReturnToGeneratorButton" method="_on_pressed"]
+[connection signal="pressed" from="2D_DungeonMap/ReturnToGeneratorButton" to="2D_DungeonMap/ReturnToGeneratorButton" method="_on_pressed"]
+[connection signal="body_entered" from="3D_Dungeon/DungeonRoom/East/Area3D" to="3D_Dungeon/Player/PlayerShape" method="_on_area_3d_body_entered_east"]
+[connection signal="body_entered" from="3D_Dungeon/DungeonRoom/South/Area3D" to="3D_Dungeon/Player/PlayerShape" method="_on_area_3d_body_entered_south"]
+[connection signal="body_entered" from="3D_Dungeon/DungeonRoom/North/Area3D" to="3D_Dungeon/Player/PlayerShape" method="_on_area_3d_body_entered_north"]
+[connection signal="body_entered" from="3D_Dungeon/DungeonRoom/West/Area3D" to="3D_Dungeon/Player/PlayerShape" method="_on_area_3d_body_entered_west"]
+[connection signal="pressed" from="3D_Dungeon/ReturnToGeneratorButton" to="3D_Dungeon/ReturnToGeneratorButton" method="_on_pressed"]

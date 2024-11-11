@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://clul1647523f6"]
+
+[ext_resource type="Script" path="res://Scripts/room_ui.gd" id="1_aefi0"]
+[ext_resource type="Texture2D" uid="uid://mtq41yvathpl" path="res://Sprites/white background.png" id="2_nvom4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_blcj0"]
+font_color = Color(0, 0, 0, 1)
+outline_size = 2
+outline_color = Color(0.466667, 0.466667, 0.0352941, 1)
+
+[node name="RoomUI" type="Node2D"]
+scale = Vector2(0.7, 0.7)
+script = ExtResource("1_aefi0")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+text = "Dungeon
+Entrance"
+label_settings = SubResource("LabelSettings_blcj0")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="RoomBackGroud" type="Sprite2D" parent="Label"]
+z_index = -10
+position = Vector2(50, 50)
+texture = ExtResource("2_nvom4")
+
+[node name="WestDoor" type="Sprite2D" parent="Label"]
+z_index = -10
+position = Vector2(-12.5, 50)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_nvom4")
+
+[node name="EastDoor" type="Sprite2D" parent="Label"]
+z_index = -10
+position = Vector2(112.5, 50)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_nvom4")
+
+[node name="NorthDoor" type="Sprite2D" parent="Label"]
+z_index = -10
+position = Vector2(50, -12.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_nvom4")
+
+[node name="SouthDoor" type="Sprite2D" parent="Label"]
+z_index = -10
+position = Vector2(50, 112.5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_nvom4")

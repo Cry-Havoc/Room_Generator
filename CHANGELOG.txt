@@ -1,3 +1,11 @@
+Version 0.0.4
+
+Added - 3D Dungeon Room Mode
+
+Version 0.0.3
+
+Added - Dungeon Map Mode
+
 Version 0.0.2
 
 Added - Text Adventure Mode

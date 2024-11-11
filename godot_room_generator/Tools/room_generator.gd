@@ -15,8 +15,10 @@ var currentRoom = null
 @onready var roomCollection = $"../RoomCollection"
 @onready var generatorUI = $"../GenerationUI"
 @onready var textAdventure = $"../TextAdventure" 
-
-
+@onready var dungeonMap2D =  $"../2D_DungeonMap"
+@onready var dungeon3D =   $"../3D_Dungeon"
+@onready var dungeonPlayer =  $"../3D_Dungeon/Player"
+  
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	CalculateRooms() 
@@ -35,8 +37,7 @@ func DrunkWalk(displayDelay : float):
 	var lastRoom : RoomNode = null 
 	
 	walkerPosition.x = randi()%(grid_width-1)
-	walkerPosition.y = randi()%(grid_height-1) 
-	 
+	walkerPosition.y = randi()%(grid_height-1)  
 	
 	debugLog += "Drunk Walk starts at position - " + str(walkerPosition.x) + ", " + str(walkerPosition.y);
 	
@@ -170,7 +171,23 @@ func StartTextAdventure():
 	textAdventure.visible = true
 	textAdventure.StartTextAdventure()
 	
+func Start2DMap():
+	generatorUI.visible = false
+	dungeonMap2D.visible = true
+	dungeonMap2D.StartDungeonMap()
+
+	
+func Start3DDungeon():
+	generatorUI.visible = false
+	dungeon3D.visible = true
+	dungeonPlayer.StartDungeon3D()	
+	 
+	
 func BackToGenerator():
 	generatorUI.visible = true 
 	textAdventure.visible = false 
-	textAdventure.LeaveTextAdventure()
+	textAdventure.LeaveTextAdventure() 
+	dungeonMap2D.visible = false
+	dungeonMap2D.LeaveDungeonMap()
+	dungeon3D.visible = false
+	dungeonPlayer.LeaveDungeon3D()
