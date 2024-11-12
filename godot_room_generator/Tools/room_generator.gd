@@ -18,7 +18,7 @@ var currentRoom = null
 @onready var dungeonMap2D =  $"../2D_DungeonMap"
 @onready var dungeon3D =   $"../3D_Dungeon"
 @onready var dungeonPlayer =  $"../3D_Dungeon/Player"
-@onready var dungeonButton = $"../ReturnToGeneratorButton"
+@onready var dungeonButton =  $"../Dungeon3D_UI/ReturnToGeneratorButton"
   
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,6 +37,7 @@ func DrunkWalk(displayDelay : float):
 	var itr = 0
 	var lastRoom : RoomNode = null 
 	
+	#get random position in the grid array
 	walkerPosition.x = randi()%(grid_width-1)
 	walkerPosition.y = randi()%(grid_height-1)  
 	
@@ -109,11 +110,14 @@ func CreateGrid():
 	gridArray = [] 
 	
 	for x in range(grid_width):
+		
 		gridArray.append([]) 
 		gridArray[x] = []
 		for y in range(grid_height):
+			#for each collum in the grid add another empty array to the grid array
 			gridArray[x].append([])
 			var newRoom = RoomNode.new()
+			#create a new room data node and append it to the X Y position in the array
 			gridArray[x][y] = newRoom  
 			
 	grid_initialized = true 

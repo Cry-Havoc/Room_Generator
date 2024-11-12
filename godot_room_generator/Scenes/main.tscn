@@ -209,12 +209,13 @@ shape = SubResource("CylinderShape3D_j3i73")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="3D_Dungeon"]
 transform = Transform3D(0.963257, 0.244673, -0.110773, 0.1926, -0.341809, 0.919822, 0.187193, -0.907359, -0.376374, 0, 17.3978, 0)
 
-[node name="ReturnToGeneratorButton" type="Button" parent="."]
+[node name="Dungeon3D_UI" type="Node2D" parent="."]
+position = Vector2(192, 940)
+
+[node name="ReturnToGeneratorButton" type="Button" parent="Dungeon3D_UI"]
 visible = false
-offset_left = 192.0
-offset_top = 940.0
-offset_right = 409.0
-offset_bottom = 971.0
+offset_right = 217.0
+offset_bottom = 31.0
 text = "Return To Room Generator"
 script = ExtResource("8_bf6xx")
 
@@ -228,4 +229,4 @@ script = ExtResource("8_bf6xx")
 [connection signal="body_entered" from="3D_Dungeon/DungeonRoom/South/Area3D" to="3D_Dungeon/Player/PlayerShape" method="_on_area_3d_body_entered_south"]
 [connection signal="body_entered" from="3D_Dungeon/DungeonRoom/North/Area3D" to="3D_Dungeon/Player/PlayerShape" method="_on_area_3d_body_entered_north"]
 [connection signal="body_entered" from="3D_Dungeon/DungeonRoom/West/Area3D" to="3D_Dungeon/Player/PlayerShape" method="_on_area_3d_body_entered_west"]
-[connection signal="pressed" from="ReturnToGeneratorButton" to="ReturnToGeneratorButton" method="_on_pressed"]
+[connection signal="pressed" from="Dungeon3D_UI/ReturnToGeneratorButton" to="Dungeon3D_UI/ReturnToGeneratorButton" method="_on_pressed"]
